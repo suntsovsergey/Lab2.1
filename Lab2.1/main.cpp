@@ -21,6 +21,16 @@ using namespace std;
  * 
  */
 
+int number_pattern(string str, string pattern){
+    int count=0;
+    int i=0;
+    for (i=str.find(pattern,i);i!=string::npos; i=str.find(pattern,i+1)){
+        count++;
+    }
+    return count;
+}
+
+
 
 
 int main(int argc, char** argv) {
@@ -31,16 +41,23 @@ int main(int argc, char** argv) {
     string result;
     int length_pattern;
     int number_str;
+    int length_str;
     getline(input_file,a1,' ');
     getline(input_file,a2,' ');
     length_pattern=atoi(a1.c_str());
+    length_str=str[0].length();
     number_str=atoi(a2.c_str());
     str=new string [number_str];
     //считывание строк с ДНК 
     for(int i=0;i<number_str;i++){
         getline(input_file,str[i],'\n');
     }
- 
+    int k=0;
+    while(k<number_str){
+        for(int i=0;i<length_str-length_pattern+1;i++){
+            
+        }
+    }
 
     
     
