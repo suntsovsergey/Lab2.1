@@ -39,24 +39,43 @@ int main(int argc, char** argv) {
     string *str;
     string a1,a2;
     string result;
+    string *motifs;
+    string **all_patterns;
     int length_pattern;
     int number_str;
     int length_str;
     getline(input_file,a1,' ');
     getline(input_file,a2,' ');
     length_pattern=atoi(a1.c_str());
-    length_str=str[0].length();
     number_str=atoi(a2.c_str());
     str=new string [number_str];
+    motifs=new string [number_str];
+    all_patterns=new string* [number_str];
     //считывание строк с ДНК 
-    for(int i=0;i<number_str;i++){
-        getline(input_file,str[i],'\n');
+    for(int i=0;i<number_str+1;i++){
+        string tmp;
+        getline(input_file,tmp,'\n');
+        if(i>0) str[i-1]=tmp;
     }
-    int k=0;
-    while(k<number_str){
-        for(int i=0;i<length_str-length_pattern+1;i++){
-            
+    length_str=str[0].length();
+    for(int i=0;i<number_str;i++){
+        all_patterns[i]=new string [length_str-length_pattern+1];
+    }
+    //заполнение всеми возможными наборами шаблонов 
+    for(int i=0;i<number_str;i++){
+        string tmp_str=str[i];
+        for(int j=0;j<length_str-length_pattern+1;j++){
+            for(int k=j;k<j+length_pattern;k++){
+                all_patterns[i][j]+=tmp_str[k];
+            }
         }
+    }
+    
+    for(int i=0;i<number_str;i++){
+     for(int j=0;j<length_str-length_pattern+1;j++){
+        cout<<all_patterns[i][j]<<" ";
+     }
+     cout<<endl;
     }
 
     
