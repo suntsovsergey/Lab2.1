@@ -62,7 +62,7 @@ int main(int argc, char** argv) {
     int length_pattern;
     int number_str;
     int length_str;
-    int best_score;//наилучшее score
+    int best_score=0;//наилучшее score
     int score;//score для текущего 
     getline(input_file,a1,' ');
     getline(input_file,a2,' ');
@@ -91,16 +91,27 @@ int main(int argc, char** argv) {
             }
         }
     }
+    int z=0;
     // создаем массив с в котором хранится номер паттерна в строке
-    int len=length_pattern;
+    int len=length_str-length_pattern+1;
     int kol=number_str;
     int *mas=new int[kol];
     int *maxzn= new int [kol];
     for(int i=0;i<kol;i++){
         mas[i]=0;
         maxzn[i]=len-1;
-        cout<<maxzn[i];
+       // cout<<maxzn[i];
     }
+    for(int i=0;i<kol;i++){
+        motifs[i]=all_patterns[i][0];
+    }
+    score=Score(motifs,length_pattern,number_str);
+        if(best_score<score){
+            best_score=score;
+            for(int i=0;i<kol;i++){
+                result[i]=motifs[i];
+            }
+        }
     cout<<endl;
     int pr=0;
     while(pr==0){
@@ -124,20 +135,34 @@ int main(int argc, char** argv) {
         int ch=0;
         for(int i=0;i<kol;i++){
             if(mas[i]==maxzn[i])ch++;
-           // cout<<mas[i];
+            //cout<<mas[i];
         }
-        //cout<<" ";
+       // cout<<" ";
+        for(int i=0;i<kol;i++){
+            motifs[i]=all_patterns[i][mas[i]];
+        }
+        score=Score(motifs,length_pattern,number_str);
+        //cout<<score<<" "; 
+        
+        if(best_score<score){
+            best_score=score;
+            for(int i=0;i<kol;i++){
+                result[i]=motifs[i];
+            }
+        }
         //если совпадают массивы то выходим из цикла
         if(ch==kol) pr=1;
     }
-        
-    score=Score(motifs,length_pattern,number_str);
-   
     
+//    cout<<endl;cout<<best_score;
+   for(int i=0;i<kol;i++){
+                cout<<result[i]<<" ";
+            }
     
-//    output_file<<result;
-//    output_file.close();
-//    input_file.close();
+    for(int i=0;i<kol;i++){
+    output_file<<result[i]<<" ";}
+    output_file.close();
+    input_file.close();
     return 0;
 }
 
