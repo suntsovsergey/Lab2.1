@@ -51,8 +51,6 @@ int Score(string *m, int len_pat, int num_str){
 }
 
 
-
-
 int main(int argc, char** argv) {
     ifstream input_file("Input.txt");
     ofstream output_file("Output.txt");
@@ -93,8 +91,45 @@ int main(int argc, char** argv) {
             }
         }
     }
-    //
-    
+    // создаем массив с в котором хранится номер паттерна в строке
+    int len=length_pattern;
+    int kol=number_str;
+    int *mas=new int[kol];
+    int *maxzn= new int [kol];
+    for(int i=0;i<kol;i++){
+        mas[i]=0;
+        maxzn[i]=len-1;
+        cout<<maxzn[i];
+    }
+    cout<<endl;
+    int pr=0;
+    while(pr==0){
+        if(mas[kol-1]==len-1){
+            mas[kol-1]=0;
+            int pr1=0;
+            int k=kol-2;
+            while(pr1==0){
+                if(mas[k]==len-1){
+                    mas[k]=0;
+                    k--;
+                }
+                else {
+                    mas[k]++;
+                    pr1=1;
+                }     
+            }
+        }
+        else mas[kol-1]++;
+        //проверка на совпадение 
+        int ch=0;
+        for(int i=0;i<kol;i++){
+            if(mas[i]==maxzn[i])ch++;
+           // cout<<mas[i];
+        }
+        //cout<<" ";
+        //если совпадают массивы то выходим из цикла
+        if(ch==kol) pr=1;
+    }
         
     score=Score(motifs,length_pattern,number_str);
    
