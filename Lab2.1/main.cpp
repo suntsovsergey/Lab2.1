@@ -21,13 +21,33 @@ using namespace std;
  * 
  */
 
-int number_pattern(string str, string pattern){
-    int count=0;
-    int i=0;
-    for (i=str.find(pattern,i);i!=string::npos; i=str.find(pattern,i+1)){
-        count++;
+int Score(string *m, int len_pat, int num_str){
+    int result=0;
+    int **profile_matrix;
+    profile_matrix=new int* [4];
+    for(int i=0;i<4;i++){
+        profile_matrix[i]=new int[len_pat];
     }
-    return count;
+    for(int i=0;i<num_str;i++){
+        for(int j=0;j<len_pat;j++){
+            string tmp=m[i];
+            switch(tmp[j]){
+                case 'A' : profile_matrix[0][j]++; break;
+                case 'C' : profile_matrix[1][j]++; break;
+                case 'G' : profile_matrix[2][j]++; break;
+                case 'T' : profile_matrix[3][j]++; break;
+            
+            }
+        }
+    }
+    for(int i=0;i<len_pat;i++){
+        int max_zn=0;
+        for(int j=0;j<4; j++){
+            if(max_zn<profile_matrix[j][i]) max_zn=profile_matrix[j][i];
+        }
+        result+=max_zn;
+    }
+    return result;
 }
 
 
@@ -38,18 +58,21 @@ int main(int argc, char** argv) {
     ofstream output_file("Output.txt");
     string *str;
     string a1,a2;
-    string result;
-    string *motifs;
-    string **all_patterns;
+    string *result;//результат
+    string *motifs;//текущий набор мотивов
+    string **all_patterns;//все наборы 
     int length_pattern;
     int number_str;
     int length_str;
+    int best_score;//наилучшее score
+    int score;//score для текущего 
     getline(input_file,a1,' ');
     getline(input_file,a2,' ');
     length_pattern=atoi(a1.c_str());
     number_str=atoi(a2.c_str());
     str=new string [number_str];
     motifs=new string [number_str];
+    result=new string [number_str];
     all_patterns=new string* [number_str];
     //считывание строк с ДНК 
     for(int i=0;i<number_str+1;i++){
@@ -70,19 +93,16 @@ int main(int argc, char** argv) {
             }
         }
     }
+    //
     
-    for(int i=0;i<number_str;i++){
-     for(int j=0;j<length_str-length_pattern+1;j++){
-        cout<<all_patterns[i][j]<<" ";
-     }
-     cout<<endl;
-    }
-
+        
+    score=Score(motifs,length_pattern,number_str);
+   
     
     
-    output_file<<result;
-    output_file.close();
-    input_file.close();
+//    output_file<<result;
+//    output_file.close();
+//    input_file.close();
     return 0;
 }
 
