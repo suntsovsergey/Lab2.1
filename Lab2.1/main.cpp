@@ -89,7 +89,9 @@ int main(int argc, char** argv) {
             for(int k=j;k<j+length_pattern;k++){
                 all_patterns[i][j]+=tmp_str[k];
             }
+            cout<<all_patterns[i][j]<<" ";
         }
+        cout<<endl;
     }
     int z=0;
     // создаем массив с в котором хранится номер паттерна в строке
